@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
-
 // Import then Create an instance of Transactions Module
 const TransactionsModule = require('../modules/transactionsModule');
 const transactionsModule = new TransactionsModule();
+// Pagination Helper
+const PaginationHelper = require('../util/paginationHelper');
+const paginationHelper = new PaginationHelper();
 
 // GET endpoint to get transactions history
 router.get('/history', async (req, res) => {
@@ -11,7 +13,7 @@ router.get('/history', async (req, res) => {
     const { page = 1, size = 5 } = req.query;
     try {
         const transactions = await transactionsModule.getTransactionHistory(page, size);
-        const responsePaginated = transactionsModule.getPaginatedData(transactions, page, size);
+        const responsePaginated = paginationHelper.getPaginatedData(transactions, page, size);
         res.status(200).json(responsePaginated);
         console.log(`${req.method} ${req.url}`);
     } catch (error) {

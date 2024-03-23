@@ -1,9 +1,13 @@
 // Transactions Model
 const db = require('../models');
 const TransactionsModel = db.transactions;
+// Transactions Status Enum
 const StatusEnum = require('../enums/statusEnum');
 const { faker } = require('@faker-js/faker');
 const SHA256 = require("crypto-js/sha256");
+// Pagination Helper
+const PaginationHelper = require('../util/paginationHelper');
+const paginationHelper = new PaginationHelper();
 
 class Transactions {
     constructor() {
@@ -20,7 +24,7 @@ class Transactions {
     // Get transaction list in DESC order
     // Optional params page and size - default values to allow pagination
     async getTransactionHistory(page, size) {
-        const { limit, offset } = this.getPagination(page, size);
+        const { limit, offset } = paginationHelper.getPagination(page, size);
         const transactions = await TransactionsModel.findAndCountAll({
             order: [['createdAt', 'DESC']], // Order by createdAt in descending order
             limit, // size or num of records per page
@@ -51,24 +55,6 @@ class Transactions {
 
         return this.receipt;
     }
-
-    // Get Transactions List with Pagination
-    getPaginatedData = (data, page, limit) => {
-        const { count: totalItems, rows: transactions } = data;
-        const currentPage = page ? +page : 1; // default page 1
-        const totalPages = Math.ceil(totalItems / limit);
-      
-        return { totalItems, transactions, totalPages, currentPage };
-    };
-
-    // Paging params with default values if client did not specify as params
-    getPagination = (page, size) => {
-        const limit = size ? +size : 5;
-        // Sequelize starts counting from 0 - fix to correct the currentPage result
-        const offset = page ? (page - 1) * limit : 0;
-      
-        return { limit, offset };
-    };
 }
 
 module.exports = Transactions;
