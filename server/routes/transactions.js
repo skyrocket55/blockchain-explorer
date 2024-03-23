@@ -9,7 +9,7 @@ const paginationHelper = new PaginationHelper();
 
 // GET endpoint to get transactions history
 router.get('/history', async (req, res) => {
-    // Destructure query parameters; Set default values to allow pagination
+    // Destructure query parameters; Set default values to allow pagination if not added in client
     const { page = 1, size = 5 } = req.query;
     try {
         const transactions = await transactionsModule.getTransactionHistory(page, size);
@@ -31,7 +31,7 @@ router.post('/send', async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message:
-              err.message || "An error occurred while retrieving transactions history."
+            error.message || "An error occurred while retrieving transactions history."
         });
     }
 });

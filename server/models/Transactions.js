@@ -24,7 +24,7 @@ module.exports = (sequelize, Sequelize) => {
         },
         receiptHash: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
         },
     });
     return Transactions;

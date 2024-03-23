@@ -14,30 +14,16 @@ Submitted On: March 25, 2024 10:00
 - bootstrap 5, react-router-dom, react-fontawesome, fontawesome free-solid-svg-icons, fontawesome free-brands-svg-icon
 
 ### Features
-1. EthereumAddresses and EthereumBlocks data generated using faker-js
-2. Components
-    2.1. Header
-    2.2. Transactions
-    2.3. Transfer <TODO>
-    - GET /blocks/addresses
-    ● (Route completed in FS II - Backend Dev Lab Test)
-    ● use React lifecycle hook (useEffect & useState) or class components (componentDidMount and setState) to fetch the data from the backend
-    ● Bind the source and destination addresses drop controls with the return list of addresses.
-
-    - POST /transactions/send
-    ● Update the form submit event handler to send the request when the use clicks the submit/send button
-    ● Bind the Receipt component with the receipt data returned from the server
-
-    - GET /transactions/history
-    ● use React lifecycle hook (useEffect & useState) or class components (componentDidMount and setState) to fetch the data from the backend
-    ● Bind the transaction history table/grid with the data returned from the server.
-
-    2.4. Receipt
-    2.5. Blocks
-    2.6. BlockDetails
-    2.7. Data: EthereumAddresses, EthereumBlocks
-    2.8. Navigation *Navbar collapse not working - use react-bootstrap
-    2.9. Dashboard (Home Page)
-3. Routing using React Router 6
-4. Mobile Responsive UI
-5. Validations
+1. Components
+    1.1. Header
+    1.2. Transactions with Pagination <DONE>
+    1.3. Transfer <DONE>
+    1.4. Receipt
+    1.5. Blocks
+    1.6. BlockDetails
+    1.7. Data: EthereumAddresses, EthereumBlocks
+    1.8. Navigation *Navbar collapse not working - use react-bootstrap
+    1.9. Dashboard (Home Page)
+2. Routing using React Router 6
+3. Mobile Responsive UI
+4. Validations

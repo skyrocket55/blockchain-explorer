@@ -10,24 +10,18 @@ Submitted On: March 25, 2024 10:00
 ### Libraries Installed
 - express, faker-js, cors, crypto-js
 
-### Modules
+### Features
 1. BlocksModule
-2. Transactions 
+2. TransactionsModule
 2.1. getTransactionHistory() returns transactionList(from DB) <DONE>
 2.2. sendTransfer(source, destination, amount) <DONE>
-
 3. Transaction model and schema <DONE>
-
 4. Transaction API routes
 - GET /transactions/history <DONE>
 - POST /transactions/send <DONE>
-
 5. DB migrations | Setup AWS RDS
-
 6. Pagination <DONE>
-
 7. Web3 Integration
-
 8. Code Review & Cleaning
 
 ### Sample cURL snippets and Response

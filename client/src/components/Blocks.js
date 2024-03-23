@@ -45,7 +45,7 @@ function Blocks() {
             console.error("Error on catching: ", error);
           });
         }
-      }, [selectedAddress]); //Add selectedAddress to dependency array to re-run effect when it changes
+      }, [selectedAddress, initialLoad]); //Add selectedAddress to dependency array to re-run effect when it changes
 
     // handle change on selected address
     const handleOnChange = event => {
