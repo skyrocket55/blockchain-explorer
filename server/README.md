@@ -8,37 +8,27 @@ Submitted On: March 25, 2024 10:00
 2. node app
 
 ### Libraries Installed
-- express, faker-js, cors
+- express, faker-js, cors, crypto-js
 
 ### Modules
 1. BlocksModule
 2. Transactions 
-2.1. getTransactionHistory() returns transactionList(from DB)
-2.2. sendTransfer(source, destination, amount)
-- create mock receipt: source, destination, amount, gasUsed, Receipt Hash - the mock generated has value for the receipt transaction
-- The function should trigger a save to the database to persist the generated receipt transaction for future reference
-- The function should be exported so that it can be imported and used in other parts of the application
+2.1. getTransactionHistory() returns transactionList(from DB) <DONE>
+2.2. sendTransfer(source, destination, amount) <DONE>
 
 3. Transaction model and schema <DONE>
 
 4. Transaction API routes
-- GET /transactions/history
-○ calls the getTransactionHistory function from the Transactions module
-○ returns a list of transaction history
-
-- POST /transactions/send
-○ payload include the following details
-■ source - the source account address
-■ destination - the destination account address
-■ amount - the transfer amount
-○ calls the sendTransfer function from the Transactions module
-○ returns the receipt object from sendTransfer function
+- GET /transactions/history <DONE>
+- POST /transactions/send <DONE>
 
 5. DB migrations | Setup AWS RDS
 
-6. Pagination
+6. Pagination <DONE>
 
 7. Web3 Integration
+
+8. Code Review & Cleaning
 
 ### Sample cURL snippets and Response
 1. GET http://localhost:3001/blocks/addresses

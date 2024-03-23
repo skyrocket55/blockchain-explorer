@@ -12,11 +12,13 @@ app.use(express.json());
 // Parse x-www-form-urlencoded requests
 app.use(express.urlencoded({ extended: true }));
 
-// Import the router
+// Import the routers
 const blocksRouter = require('./routes/blocks');
+const transactionsRouter = require('./routes/transactions');
 
-// Use the blocks router
+// Use the routers
 app.use('/blocks', blocksRouter);
+app.use('/transactions', transactionsRouter);
 
 // Define the port for the server
 const PORT = process.env.port || 3001;
