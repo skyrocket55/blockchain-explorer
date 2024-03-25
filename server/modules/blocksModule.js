@@ -14,31 +14,35 @@ class EthereumBlocks {
         this.accounts = await provider.send("eth_accounts", []);
         return this.accounts;
     }
-    
-    // Get block details by address id selected
-    async getDetail(address) {
+
+    // get transaction details from local hardhat node
+    async getEthTransaction(fromAddress, toAddress, amount) {
         const provider =  ethers.provider;
         //const balanceWei = await provider.getBalance(address);
         // console.log("Balance in balanceWei:", balanceWei.toString());
         
         // transaction details to pass to HardhatEthersProvider
         const transaction = {
-            from: address,
+            from: fromAddress,
             // Get the first element that's not equal to the address param
-            to: this.accounts.find((account) => account.address !== address),
-            value: faker.finance.amount({ min: 1, max: 500, dec: 0 }) // value cannot be in decimal
+            to: toAddress,
+            value: amount // value cannot be in decimal
         };
         
         // Send transaction - to simulate pulled block & transaction from local hardhat instance
         const transactionHash = await provider.send("eth_sendTransaction", [transaction]);
         
-        // Get transaction receipt
-        //const receipt = await provider.getTransactionReceipt(transactionHash);
-        // console.log('transaction receipt: ', receipt);
-        
         // Get transaction details
         const transactionDetails = await provider.getTransaction(transactionHash);
         // console.log('transaction details: ', transactionDetails);
+        return transactionDetails;
+    }
+    
+    // Get block details by address id selected
+    async getDetail(address) {
+        
+        // get eth transaction details
+        let transactionDetails = await this.getEthTransaction(address, this.accounts.find((account) => account.address !== address), faker.finance.amount({ min: 1, max: 500, dec: 0 }));
 
          // create block details from fetched transaction details
          this.blockDetails.blockNumber = transactionDetails.blockNumber;

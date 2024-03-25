@@ -10,14 +10,14 @@ Submitted On: March 25, 2024  01:00
 4. node app
 
 ### Sample UI Flows
-https://www.loom.com/share/63df4f6627384d2c98e2403dead5a7aa
+https://www.loom.com/share/f7dcaa200c7a49dfbb7ae17602bf09c4
 
 ### Libraries Installed
 - express, faker-js, cors, crypto-js, sequelize, pg, web3, hardhat
 
 ### Features
 1. BlocksModule fetching from local Hardhat instance
-2. TransactionsModule
+2. TransactionsModule - Fetching addresses and transaction details from local Hardhat instance
 2.1. getTransactionHistory() - returns transactionList from AWS RDS DB
 2.2. sendTransfer(source, destination, amount)
 3. Transaction model and schema using Sequelize

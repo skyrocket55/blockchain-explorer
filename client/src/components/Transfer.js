@@ -54,10 +54,10 @@ function Transfer() {
   const handleOnChangeAmount = event => {
     let amount = event.currentTarget.value;
     
-    // Limit to two decimal places
+    // Amount cannot be in decimal - not accepted in eth
     const decimalIndex = amount.indexOf('.');
     if (decimalIndex !== -1) {
-      amount = amount.slice(0, decimalIndex + 3);
+      amount = amount.slice(0, 0);
     }
 
     // ensures consistency in the state when the user clears the input field after entering some value

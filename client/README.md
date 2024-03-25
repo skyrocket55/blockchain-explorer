@@ -9,7 +9,7 @@ Submitted On: March 25, 2024 01:00
 3. npm start    http://localhost:3000
 
 ### Sample UI Flows
-https://www.loom.com/share/1406c3ec487546ecbb8fa6dc506bdf45
+https://www.loom.com/share/f7dcaa200c7a49dfbb7ae17602bf09c4
 
 ### Libraries Installed
 - bootstrap 5, react-router-dom, react-fontawesome, fontawesome free-solid-svg-icons, fontawesome free-brands-svg-icon
@@ -18,7 +18,7 @@ https://www.loom.com/share/1406c3ec487546ecbb8fa6dc506bdf45
 1. Components
     1.1. Header
     1.2. Transactions with Pagination 
-    1.3. Transfer
+    1.3. Transfer - Fetching addresses and transaction details from local Hardhat instance
     1.4. Receipt
     1.5. Blocks - Fetching data from local Hardhat instance
     1.6. BlockDetails - Fetching data from local Hardhat instance

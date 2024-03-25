@@ -8,6 +8,10 @@ const SHA256 = require("crypto-js/sha256");
 // Pagination Helper
 const PaginationUtil = require('../util/paginationUtil');
 const paginationUtil = new PaginationUtil();
+// Fetch Eth Transactions
+const BlocksModule = require('../modules/blocksModule');
+const blocksModule = new BlocksModule();
+const { ethers } = require('hardhat');
 
 class Transactions {
     // Get transaction list in DESC order
@@ -26,16 +30,20 @@ class Transactions {
         }
     }
 
-    // Send transfer
+    // Send transfer - using HardhatEthersProvider eth_sendTransaction
     async sendTransfer(source, destination, amount) {
         try {
+            // fetch transaction details from local hardhat node
+            let transactionDetails = await blocksModule.getEthTransaction(source, destination, amount);
+            
+            // save transactions to DB
             const createdTransaction = await TransactionsModel.create({
-                source: source,
-                destination: destination,
-                amount: amount,
+                source: transactionDetails.from,
+                destination: transactionDetails.to,
+                amount: transactionDetails.value.toString(),
                 status: StatusEnum.SUCCESSFUL,
-                gasUsed: faker.number.int({ min: 100, max: 1000 }),
-                receiptHash: SHA256(source + destination + amount).toString()
+                gasUsed: ethers.formatEther(transactionDetails.gasPrice),
+                receiptHash: transactionDetails.hash
             });
 
             // Create the mock receipt
@@ -53,6 +61,5 @@ class Transactions {
         }
     }
 }
-
 
 module.exports = Transactions;
