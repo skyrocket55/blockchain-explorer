@@ -10,6 +10,8 @@ function BlockDetails({ selectedBlock }) {
         <table className='table table-hover'>
             <thead>
                 <tr>
+                    <th scope='col'>Block Number</th>
+                    <th scope='col'>Block Hash</th>
                     <th scope='col'>Address</th>
                     <th scope='col'>Balance</th>
                     <th scope='col'>Gas Used</th>
@@ -19,8 +21,10 @@ function BlockDetails({ selectedBlock }) {
             {selectedBlock && (
             <>    
                 <tr>
-                    <td width='40%'>{selectedBlock.address}</td>
-                    <td width='40%'>{selectedBlock.balance}</td>
+                    <td width='20%'>{selectedBlock.blockNumber}</td>
+                    <td width='20%'>{selectedBlock.blockHash}</td>
+                    <td width='20%'>{selectedBlock.address}</td>
+                    <td width='20%'>{selectedBlock.balance}</td>
                     <td width='20%'>{selectedBlock.gasUsed}</td>
                 </tr>
             </>

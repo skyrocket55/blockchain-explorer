@@ -19,24 +19,26 @@ function Blocks() {
 
     // fetch from backend the list of ethereum addresses
     useEffect(() => {
-      // Check if it's not the initial load
-      if (!initialLoad) {
-        axios.get("http://localhost:3001/blocks/addresses")
-        .then((response) => {
-          setListOfAddresses(response.data);
-        })
-        .catch((error) => {
-          console.error("Error on catching: ", error);
-        });
-      } else {
-        // Set initialLoad to false after the first load
-        setInitialLoad(false);
-      }
+      const fetchData = async () => {
+        try {
+          if (!initialLoad) { // Check if it's not the initial load
+            const response = await axios.get("http://localhost:3001/blocks/addresses");
+            setListOfAddresses(response.data);
+          } else {
+            // Set initialLoad to false after the first load
+            setInitialLoad(false);
+          }
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      };
+    
+      fetchData();
     }, [initialLoad]);
 
     // fetch from backend the block details
     useEffect(() => {
-      if (!initialLoad) {
+      if (selectedAddress !== null) {
         axios.get(`http://localhost:3001/blocks/details/${selectedAddress}`)
           .then((response) => {
               setSelectedBlock(response.data);
@@ -45,13 +47,12 @@ function Blocks() {
             console.error("Error on catching: ", error);
           });
         }
-      }, [selectedAddress, initialLoad]); //Add selectedAddress to dependency array to re-run effect when it changes
+    }, [selectedAddress]); //Add selectedAddress to dependency array to re-run effect when it changes
 
     // handle change on selected address
     const handleOnChange = event => {
         const selectedValue = event.currentTarget.value;
         setSelectedAddress(selectedValue);
-        console.log('SelectedAddres: ', selectedValue);
     };
 
     return (
@@ -74,8 +75,8 @@ function Blocks() {
         <div className='card-body'>
             {/* Use a conditional rendering to check if selectedBlock exists */}
             {selectedAddress === null ? (
-                        // Render a message if no Ethereum address is selected
-                        <p>Ethereum Address is Required</p>
+                // Render a message if no Ethereum address is selected
+                <p>Ethereum Address is Required</p>
             ) : (
                 // Use a conditional rendering to check if selectedBlock exists
                 selectedBlock ? (

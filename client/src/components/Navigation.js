@@ -15,11 +15,11 @@ function Navigation() {
                         </div>
                     </div>
                 </NavLink>
-                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
-                <div className="collapse navbar-collapse" id="navbarScroll">
-                    <ul className="navbar-nav navbar-nav-scroll justify-content-center">
+                <div className="collapse navbar-collapse" id="navbarNav">
+                    <ul className="navbar-nav">
                         <li className="nav-item">
                             <NavLink to="/transactions" className="nav-link" aria-current="page">
                                 <Header title="Transactions" />

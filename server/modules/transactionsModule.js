@@ -6,16 +6,15 @@ const StatusEnum = require('../enums/statusEnum');
 const { faker } = require('@faker-js/faker');
 const SHA256 = require("crypto-js/sha256");
 // Pagination Helper
-const PaginationHelper = require('../util/paginationHelper');
-const paginationHelper = new PaginationHelper();
+const PaginationUtil = require('../util/paginationUtil');
+const paginationUtil = new PaginationUtil();
 
 class Transactions {
-    
     // Get transaction list in DESC order
     // Optional params page and size - default values to allow pagination
     async getTransactionHistory(page, size) {
         try {
-            const { limit, offset } = paginationHelper.getPagination(page, size);
+            const { limit, offset } = paginationUtil.getPagination(page, size);
             const transactions = await TransactionsModel.findAndCountAll({
                 order: [['createdAt', 'DESC']], // Order by createdAt in descending order
                 limit, // size or num of records per page
@@ -27,7 +26,7 @@ class Transactions {
         }
     }
 
-    // Send transfer 
+    // Send transfer
     async sendTransfer(source, destination, amount) {
         try {
             const createdTransaction = await TransactionsModel.create({
@@ -54,5 +53,6 @@ class Transactions {
         }
     }
 }
+
 
 module.exports = Transactions;

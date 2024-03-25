@@ -1,4 +1,4 @@
-class PaginationHelper {
+class PaginationUtil {
     // Get Transactions List with Pagination
     getPaginatedData = (data, page, limit) => {
         const { count: totalItems, rows: transactions } = data;
@@ -8,7 +8,7 @@ class PaginationHelper {
         return { totalItems, transactions, totalPages, currentPage };
     };
 
-    // Paging params with default values if client did not specify as params
+    // Paging params with default values if client did not specify params
     getPagination = (page, size) => {
         const limit = size ? +size : 5;
         // Sequelize starts counting from 0 - fix to correct the currentPage result
@@ -18,4 +18,4 @@ class PaginationHelper {
     };
 }
 
-module.exports = PaginationHelper;
+module.exports = PaginationUtil;

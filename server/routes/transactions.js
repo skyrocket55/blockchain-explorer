@@ -4,8 +4,8 @@ const router = express.Router();
 const TransactionsModule = require('../modules/transactionsModule');
 const transactionsModule = new TransactionsModule();
 // Pagination Helper
-const PaginationHelper = require('../util/paginationHelper');
-const paginationHelper = new PaginationHelper();
+const PaginationUtil = require('../util/paginationUtil');
+const paginationUtil = new PaginationUtil();
 
 // GET endpoint to get transactions history
 router.get('/history', async (req, res) => {
@@ -13,11 +13,14 @@ router.get('/history', async (req, res) => {
     const { page = 1, size = 5 } = req.query;
     try {
         const transactions = await transactionsModule.getTransactionHistory(page, size);
-        const responsePaginated = paginationHelper.getPaginatedData(transactions, page, size);
+        const responsePaginated = paginationUtil.getPaginatedData(transactions, page, size);
         res.status(200).json(responsePaginated);
         console.log(`${req.method} ${req.url}`);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({
+            message:
+            error.message || "An error occurred while retrieving transactions history."
+        });
     }
 }); 
 
@@ -31,7 +34,7 @@ router.post('/send', async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message:
-            error.message || "An error occurred while retrieving transactions history."
+            error.message || "An error occurred while saving transactions."
         });
     }
 });

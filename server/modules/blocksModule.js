@@ -1,39 +1,54 @@
 const { faker } = require('@faker-js/faker');
+const { ethers } = require('hardhat');
 
 class EthereumBlocks {
+
     constructor() {
-        this.blockAddresses = [];
-        this.blocks = [];
+        this.accounts = [];
+        this.blockDetails = { address: null, balance: null, gasUsed: null };
     }
     
-    // return list of block addresses
-    getAddresses = () => {
-        // generate the ethreum addresses
-        this.blockAddresses = Array.from({ length: 8 }, () => faker.finance.ethereumAddress());
-        this.createEthereumBlocks(); // initialize the blocks
-        return this.blockAddresses;
+    // return list of eth accounts from hardhat instance
+    async getAddresses() {
+        const provider = ethers.provider;
+        this.accounts = await provider.send("eth_accounts", []);
+        return this.accounts;
     }
     
-    // create ethereum blocks with details - returns array
-    createEthereumBlocks = () => {
-        // // Map over the generated block addresses and populate the blocks array
-        this.blockAddresses.forEach(blockAddress => {
-            this.blocks.push({
-                address: blockAddress,
-                balance: faker.finance.amount(),
-                gasUsed: faker.number.int({ min: 100, max: 1000 })
-            });
-        })
+    // Get block details by address id selected
+    async getDetail(address) {
+        const provider =  ethers.provider;
+        //const balanceWei = await provider.getBalance(address);
+        // console.log("Balance in balanceWei:", balanceWei.toString());
         
-        return this.blocks;
-    }
-    
-    // get block details by address id selected
-    getDetail = (address) => {
-        console.log(`getDetail blocks ${this.blocks}`);
-        const blockDetails = this.blocks.find(block => block.address === address);
-        console.log(`getDetail of address ${address}: ${JSON.stringify(blockDetails)} `);
-        return blockDetails;
+        // transaction details to pass to HardhatEthersProvider
+        const transaction = {
+            from: address,
+            // Get the first element that's not equal to the address param
+            to: this.accounts.find((account) => account.address !== address),
+            value: faker.finance.amount({ min: 1, max: 500, dec: 0 }) // value cannot be in decimal
+        };
+        
+        // Send transaction - to simulate pulled block & transaction from local hardhat instance
+        const transactionHash = await provider.send("eth_sendTransaction", [transaction]);
+        
+        // Get transaction receipt
+        //const receipt = await provider.getTransactionReceipt(transactionHash);
+        // console.log('transaction receipt: ', receipt);
+        
+        // Get transaction details
+        const transactionDetails = await provider.getTransaction(transactionHash);
+        // console.log('transaction details: ', transactionDetails);
+
+         // create block details from fetched transaction details
+         this.blockDetails.blockNumber = transactionDetails.blockNumber;
+         this.blockDetails.blockHash = transactionDetails.blockHash;
+         this.blockDetails.address = transactionDetails.from;
+         this.blockDetails.balance = transactionDetails.value.toString(); // fix TypeError
+         // convert wei to ether
+         this.blockDetails.gasUsed = ethers.formatEther(transactionDetails.gasPrice);
+
+        return this.blockDetails;
     }
 }
 

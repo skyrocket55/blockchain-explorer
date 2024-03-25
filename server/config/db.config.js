@@ -1,8 +1,8 @@
 module.exports = {
-  HOST: "localhost",
-  USER: "ciel",
-  PASSWORD: "",
-  DB: "blockchain-explorer",
+  HOST: "blockchain-explorer-dev.c1q8wu2wwo4b.us-east-2.rds.amazonaws.com",
+  USER: "postgres",
+  PASSWORD: "blockchain-explorer-dev-2024",
+  DB: "blockchain",
   dialect: "postgres",
   pool: {
     max: 5,

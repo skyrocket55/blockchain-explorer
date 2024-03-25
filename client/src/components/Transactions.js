@@ -7,13 +7,14 @@ function Transactions() {
   // Use the state hook to manage list of Transactions
   const [listOfTransactions, setListOfTransactions] = useState([]);
 
+  // Use the state hook to manage the Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const pageSize = 5; // Default
+  const [pageSize, setPageSize] = useState(5); // Default page size
 
   useEffect(() => {
     fetchTransactionsHistory();
-  }); // Fetch transactions when currentPage changes
+  }, [currentPage, pageSize]); // Trigger the effect when currentPage or pageSize changes
 
   // Fetch Transactions History with Pagination
   const fetchTransactionsHistory = () => {
@@ -38,6 +39,11 @@ function Transactions() {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
     }
+  };
+
+  const handlePageSizeChange = (event) => {
+    setPageSize(parseInt(event.target.value));
+    setCurrentPage(1); // Reset currentPage when pageSize changes to go back to the first page
   };
 
   return (
@@ -79,15 +85,24 @@ function Transactions() {
                 </tbody>
               </table>
             </div>
-            <div>
-              <button onClick={handlePrevPage} disabled={currentPage === 1} type='submit' className='btn btn-outline-primary'>
-                Previous Page
-              </button>
-                <span> Page {currentPage} of {totalPages} </span>
-              <button onClick={handleNextPage} disabled={currentPage === totalPages} type='submit' className='btn btn-outline-primary'>
-                Next Page
-              </button>
-          </div>
+            <div className="d-flex flex-column justify-content-center align-items-center w-100">
+              <div className="mb-2">
+                <button onClick={handlePrevPage} disabled={currentPage === 1} type='submit' className='btn btn-outline-primary'>
+                  Previous Page
+                </button>
+                <span className="mx-2"> Page {currentPage} of {totalPages} </span>
+                <button onClick={handleNextPage} disabled={currentPage === totalPages} type='submit' className='btn btn-outline-primary'>
+                  Next Page
+                </button>
+              </div>
+              <div className='mb-2'>
+                <span>Show Rows:</span>
+                <select value={pageSize} onChange={handlePageSizeChange} className='form-select ml-3'>
+                  <option value={5}>5</option>
+                  <option value={10}>10</option>
+                </select>
+              </div>
+            </div>
           </div>  
         </div>
       </div>

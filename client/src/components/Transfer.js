@@ -52,23 +52,33 @@ function Transfer() {
 
   // handle change on input amount
   const handleOnChangeAmount = event => {
-    const amount = event.currentTarget.value;
-    setInputAmount(amount);
+    let amount = event.currentTarget.value;
+    
+    // Limit to two decimal places
+    const decimalIndex = amount.indexOf('.');
+    if (decimalIndex !== -1) {
+      amount = amount.slice(0, decimalIndex + 3);
+    }
+
+    // ensures consistency in the state when the user clears the input field after entering some value
+    setInputAmount(amount === '' ? null : amount);
   };
 
   // handle form submission
   const handleSubmit = (event) => {
     event.preventDefault(); //prevent form submission
     
-    // Request body
-    const requestBody = {
-      source: selectedFromAddress,
-      destination: selectedToAddress,
-      amount: parseFloat(inputAmount)
-    };
+    // Check Input Fields Validations to show receipt
+    if(inputAmount!==null && selectedFromAddress!==null && selectedToAddress!==null && selectedFromAddress!==selectedToAddress) {
+      // Request body
+      const requestBody = {
+        source: selectedFromAddress,
+        destination: selectedToAddress,
+        amount: parseFloat(inputAmount)
+      };
 
-  // POST request on Transactions
-    axios.post("http://localhost:3001/transactions/send", requestBody)
+      // POST request on Transactions
+      axios.post("http://localhost:3001/transactions/send", requestBody)
       .then((response) => {
         // Upon successful response, set the receipt details
         setReceiptDetails({
@@ -84,10 +94,11 @@ function Transfer() {
       .catch((error) => {
         console.error("Error on catching: ", error);
       });
-    
-    // Check Input Fields Validations to show receipt
-    inputAmount!==null && selectedFromAddress!==null && selectedToAddress!==null && selectedFromAddress!==selectedToAddress
-    ? setShowReceipt(true) : setDisplay({display: 'block'});
+
+      setShowReceipt(true);
+    } else {
+        setDisplay({display: 'block'});
+    }
   };
 
   // reset all input
